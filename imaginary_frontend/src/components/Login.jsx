@@ -1,5 +1,9 @@
 import React from "react";
-import GoogleLogin from "react-google-login";
+// import GoogleLogin from "react-google-login";
+import { GoogleOAuthProvider } from '@react-oauth/google';
+// import { useGoogleLogin } from '@react-oauth/google';
+import { GoogleLogin,googleLogout } from '@react-oauth/google';
+import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import shareVideo from "../assets/share.mp4";
@@ -9,19 +13,19 @@ import { client } from "../client";
 const Login = () => {
   const navigate = useNavigate();
 
-  // this is use to
   const responseGoogle = (response) => {
-    // console.log(response);
-    localStorage.setItem("user", JSON.stringify(response.profileObj));
 
-    const { name, googleId, imageUrl } = response.profileObj;
+    localStorage.setItem('user', JSON.stringify(response.profileObj));
+    var decodedHeader = jwt_decode(response.credential);
+    console.log(decodedHeader);
+    const { name, sub, picture } = decodedHeader;
 
     const doc = {
-      _id: googleId,
-      _type: "user",
+      _id: sub,
+      _type: 'user',
       userName: name,
-      image: imageUrl,
-    }
+      image: picture,
+    };
 
     client.createIfNotExists(doc).then(() => {
       navigate('/', { replace: true });
@@ -45,6 +49,9 @@ const Login = () => {
           </div>
 
           <div className="shadow-2xl">
+
+
+
             <GoogleLogin
               clientId={`${process.env.REACT_APP_GOOGLE_API_TOKEN}`}
               render={(renderProps) => (
@@ -58,7 +65,7 @@ const Login = () => {
                 </button>
               )}
               onSuccess={responseGoogle}
-              onFailure={responseGoogle}
+   onError={responseGoogle}
               cookiePolicy="single_host_origin"
             />
           </div>
