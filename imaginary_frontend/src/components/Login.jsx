@@ -18,13 +18,21 @@ const Login = () => {
     localStorage.setItem('user', JSON.stringify(response.profileObj));
     var decodedHeader = jwt_decode(response.credential);
     console.log(decodedHeader);
-    const { name, sub, picture } = decodedHeader;
+    // const { name, sub, picture } = decodedHeader;
 
+    // const doc = {
+    //   _id: sub,
+    //   _type: 'user',
+    //   userName: name,
+    //   image: picture,
+    // };
+
+    const { name, sub, imageUrl } = decodedHeader;
     const doc = {
       _id: sub,
       _type: 'user',
       userName: name,
-      image: picture,
+      image: imageUrl,
     };
 
     client.createIfNotExists(doc).then(() => {
@@ -65,7 +73,7 @@ const Login = () => {
                 </button>
               )}
               onSuccess={responseGoogle}
-   onError={responseGoogle}
+              onError={responseGoogle}
               cookiePolicy="single_host_origin"
             />
           </div>
