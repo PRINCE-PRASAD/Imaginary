@@ -18,22 +18,22 @@ const Login = () => {
     localStorage.setItem('user', JSON.stringify(response.profileObj));
     var decodedHeader = jwt_decode(response.credential);
     console.log(decodedHeader);
-    // const { name, sub, picture } = decodedHeader;
+    const { name, sub, picture } = decodedHeader;
 
-    // const doc = {
-    //   _id: sub,
-    //   _type: 'user',
-    //   userName: name,
-    //   image: picture,
-    // };
-
-    const { name, sub, imageUrl } = decodedHeader;
     const doc = {
       _id: sub,
       _type: 'user',
       userName: name,
-      image: imageUrl,
+      image: picture,
     };
+
+    // const { name, sub, imageUrl } = decodedHeader;
+    // const doc = {
+    //   _id: sub,
+    //   _type: 'user',
+    //   userName: name,
+    //   image: imageUrl,
+    // };
 
     client.createIfNotExists(doc).then(() => {
       navigate('/', { replace: true });

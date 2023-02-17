@@ -14,7 +14,6 @@ const categories = [
   {name: 'gaming'},
   {name: 'coding'},
   {name: 'others'},
-
 ]
 
 const isNotActiveStyle = 'flex items-center px-5 gap-3 text-gray-500 hover:text-black transition-all duration-200 ease-in-out capitalize';
