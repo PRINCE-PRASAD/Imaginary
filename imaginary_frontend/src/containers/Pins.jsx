@@ -1,4 +1,6 @@
-import React from "react";
+import React, {useState} from "react";
+import {Routes, Route} from 'react-router-dom';
+import {Navbar, Feed, PinDetail, CreatePin,Search }
 
 const Pins = () => {
   return(
